@@ -211,7 +211,6 @@ struct ConfigurationView: View {
         #endif
 
         return StreamConfigurationMessage(
-            SessionID: sessionID,
             RenderedResolution: renderedResolution,
             EncodedResolution: encodedResolution,
             FoveationInsetRatio: Double(foveationInsetPercent) / 100.0,
