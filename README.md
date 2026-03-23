@@ -35,7 +35,7 @@ On device, the app imports Apple's `FoveatedStreaming` framework. The `ClearXRSi
 - Xcode 26.4+
 - visionOS 26.4+ SDK
 - Apple Vision Pro (device required for streaming; simulator supports UI preview only)
-- A Windows 11 PC running the Clear XR Server and API overlay
+- A Windows 10/11 PC with NVIDIA Ada or Blackwell GPU (40xx, 50xx, RTX 5000/6000, L40, L40S), running the Clear XR Server and API overlay
 
 ## Getting Started
 
