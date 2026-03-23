@@ -29,7 +29,7 @@ enum ResolutionPreset: String, CaseIterable, Identifiable {
         case .eureka:
             8000
         case .clear:
-            6600
+            6608
         case .clearPerformance:
             6400
         case .balanced:
