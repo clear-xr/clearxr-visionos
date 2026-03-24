@@ -4,11 +4,17 @@ A visionOS client for streaming immersive worlds, games, and applications from a
 
 ## For End Users 
 
-Download the [latest release](https://github.com/clear-xr/clearxr-server/releases)
+Download the [latest server release](https://github.com/clear-xr/clearxr-server/releases) for your Windows 10/11 PC
 
 Download the client from Test Flight
 
 [![Clear XR](https://i.imgur.com/DHhfmmK.png)](https://testflight.apple.com/join/ed6778fF)
+
+## Requirements
+
+- visionOS 26.4+ 
+- Apple Vision Pro (device required for streaming; simulator supports UI preview only)
+- A Windows 10/11 PC with NVIDIA Ada or Blackwell GPU (40xx, 50xx, RTX 5000/6000, L40, L40S), running the Clear XR Server and API overlay
 
 ## For Developers & Hackers
 
@@ -39,12 +45,7 @@ ClearXRSimulator/          Framework target
 
 On device, the app imports Apple's `FoveatedStreaming` framework. The `ClearXRSimulator` framework provides matching type stubs so the project builds and previews in the Xcode simulator.
 
-## Requirements
 
-- Xcode 26.4+
-- visionOS 26.4+ SDK
-- Apple Vision Pro (device required for streaming; simulator supports UI preview only)
-- A Windows 10/11 PC with NVIDIA Ada or Blackwell GPU (40xx, 50xx, RTX 5000/6000, L40, L40S), running the Clear XR Server and API overlay
 
 ## Getting Started
 
