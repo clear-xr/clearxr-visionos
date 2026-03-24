@@ -10,6 +10,8 @@ Download the client from Test Flight
 
 [![Clear XR](https://i.imgur.com/DHhfmmK.png)](https://testflight.apple.com/join/ed6778fF)
 
+discord server: https://discord.gg/AzZZXvBR8p
+
 ## Requirements
 
 - visionOS 26.4+ 
