@@ -14,7 +14,7 @@ import FoveatedStreaming
 
 struct StreamControlsView: View {
     @Environment(StreamActions.self) var streamActions
-    @Environment(SpatialControllerManager.self) var spatialControllerManager
+    @Environment(ControllerBridgeStatus.self) var controllers
 
     @ScaledMetric var scaledControlsWidth = 480
     
@@ -86,23 +86,23 @@ struct StreamControlsView: View {
                 }
             }
             
-            if spatialControllerManager.leftControllerName != nil ||
-               spatialControllerManager.rightControllerName != nil {
+            if controllers.leftControllerName != nil ||
+               controllers.rightControllerName != nil {
                 HStack(spacing: 12) {
-                    if let name = spatialControllerManager.leftControllerName {
+                    if let name = controllers.leftControllerName {
                         HStack(spacing: 4) {
                             Circle()
-                                .fill(spatialControllerManager.isSending ? .green : .gray)
+                                .fill(controllers.isSending ? .green : .gray)
                                 .frame(width: 8, height: 8)
                             Text(name)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
                     }
-                    if let name = spatialControllerManager.rightControllerName {
+                    if let name = controllers.rightControllerName {
                         HStack(spacing: 4) {
                             Circle()
-                                .fill(spatialControllerManager.isSending ? .green : .gray)
+                                .fill(controllers.isSending ? .green : .gray)
                                 .frame(width: 8, height: 8)
                             Text(name)
                                 .font(.caption)
@@ -111,6 +111,13 @@ struct StreamControlsView: View {
                     }
                 }
                 .padding(.top, 4)
+            }
+
+            if controllers.isChannelUnavailable {
+                Text("Controllers lost their connection. Quit and reopen Clear XR to restore them.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
             }
 
             if isSettingsVisible {
@@ -149,7 +156,7 @@ struct StreamControlsView: View {
                 )
             )
             .environment(AppModel())
-            .environment(SpatialControllerManager())
+            .environment(ControllerBridgeStatus.shared)
     }
 }
 #endif

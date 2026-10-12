@@ -6,6 +6,7 @@ The main content view.
 */
 
 import SwiftUI
+import GameController
 #if targetEnvironment(simulator)
 import ClearXRSimulator
 #else
@@ -14,7 +15,6 @@ import FoveatedStreaming
 
 struct ContentView: View {
     @Environment(AppModel.self) private var appModel
-    @Environment(SpatialControllerManager.self) private var spatialControllerManager
     @Environment(\.dismissWindow) var dismissWindow
     @Environment(\.scenePhase) var scenePhase
 
@@ -50,17 +50,19 @@ struct ContentView: View {
                 disconnectReasonDescription = disconnectReason.errorDescription
                 isShowingDisconnectAlert = true
             }
-
-            if case .connected = session.status {
-                spatialControllerManager.startMonitoring()
-            } else {
-                spatialControllerManager.stopMonitoring()
-            }
         }
         .alert(disconnectReasonDescription ?? "Unknown Reason", isPresented: $isShowingDisconnectAlert) {
             Button("OK") { }
         }
         .trackWindowState($appModel.mainWindowState)
+#if !targetEnvironment(simulator)
+        .task {
+            await ControllerBridge.requestAuthorization()
+        }
+#endif
+        // Keeps controller input flowing to the game while the user looks at this window during a
+        // stream; buttons still act as pinches on the window.
+        .handlesGameControllerEvents(matching: .gamepad, withOptions: .receivesEventsInView(true))
 #if !targetEnvironment(simulator)
         .foveatedStreamingPauseSheet(session: .constant(session))
 #endif
@@ -100,7 +102,7 @@ struct ContentView: View {
                 )
             )
             .environment(AppModel())
-            .environment(SpatialControllerManager())
+            .environment(ControllerBridgeStatus.shared)
             .ornament(attachmentAnchor: .parent(.bottomFront)) {
                 Toggle(isOn: $isConnectionSuccessful) {
                     Text("isConnectionSuccessful")

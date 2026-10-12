@@ -48,10 +48,10 @@
 			membershipExceptions = (
 				ClearXRApp.swift,
 				Models/AppModel.swift,
+				Models/ControllerBridge.swift,
+				Models/ControllerBridgePacket.swift,
 				Models/MessageChannelModel.swift,
 				Models/ServerConfigurationManager.swift,
-				Models/SpatialControllerManager.swift,
-				Models/SpatialControllerPacket.swift,
 				Models/StreamActions.swift,
 				Models/StreamConfiguration.swift,
 				ViewModifiers/SetImmersivePresentationBehaviorsViewModifier.swift,

@@ -7,6 +7,7 @@ The SwiftUI `App` structure, which acts as the entry point of the app. Defines t
 
 import SwiftUI
 import RealityKit
+import GameController
 
 #if targetEnvironment(simulator)
 import ClearXRSimulator
@@ -19,26 +20,19 @@ struct ClearXRApp: App {
     private let session = FoveatedStreamingSession()
     private let appModel = AppModel()
 
-    #if targetEnvironment(simulator)
-    private let spatialControllerManager = SpatialControllerManager()
-    #else
+    #if !targetEnvironment(simulator)
     private let messageChannelModel: MessageChannelModel
-    private let spatialControllerManager: SpatialControllerManager
-    #endif
 
     init() {
-        #if !targetEnvironment(simulator)
         messageChannelModel = MessageChannelModel(session: session)
-        spatialControllerManager = SpatialControllerManager(messageChannelModel: messageChannelModel)
-        SpatialControllerSystem.registerSystem()
-        #endif
     }
+    #endif
 
     var body: some SwiftUI.Scene {
         Window("Main", id: appModel.mainWindowId) {
             ContentView(session: session)
                 .environment(appModel)
-                .environment(spatialControllerManager)
+                .environment(ControllerBridgeStatus.shared)
                 #if !targetEnvironment(simulator)
                 .environment(messageChannelModel)
                 #endif
@@ -69,7 +63,15 @@ struct ClearXRApp: App {
                 ReopenMainWindowView()
                     .environment(appModel)
             }
+            // visionOS turns controller input into pinches unless a view claims it, and then
+            // GCController reports no buttons at all. Views still receive the events, so the
+            // trigger keeps working as a pinch on this app's UI.
+            .handlesGameControllerEvents(matching: .gamepad, withOptions: .receivesEventsInView(true))
+            .task {
+                await ControllerBridge.shared.start(session: session)
+            }
             .onDisappear {
+                ControllerBridge.shared.stop()
                 // Digital crown dismissal — pause the stream.
                 Task {
                     try? await session.pause()

@@ -15,6 +15,10 @@
 		<key>CFBundlePrimaryIcon</key>
 		<string>AppIcon</string>
 	</dict>
+	<key>NSAccessoryTrackingUsageDescription</key>
+	<string>Clear XR sends your controllers' positions to the game you're streaming.</string>
+	<key>NSWorldSensingUsageDescription</key>
+	<string>Clear XR uses your head position to place your controllers in the game you're streaming.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationPreferredDefaultSceneSessionRole</key>
